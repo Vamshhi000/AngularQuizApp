@@ -1,0 +1,18 @@
+.colorr{
+    color: honeydew;
+  }
+  .container {
+
+    display: flex;
+    flex-direction: row ;
+    flex-wrap:wrap ;
+    width: 50%;
+    justify-content: space-around;
+  
+  
+  
+  }
+
+  .table-fit {
+    width: 500px;
+}

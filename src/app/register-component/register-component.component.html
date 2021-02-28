@@ -1,0 +1,88 @@
+<body  class="p-3 mb-2 bg-dark text-white" ><div class="bg-dark"></div>  
+
+    <mat-card class="example-card" >
+  
+  
+      <mat-card-header >
+        <img style="margin-left: 3rem;" [src]=myimg  > 
+
+      </mat-card-header>
+      <form class="example-form" [formGroup]="userform">
+
+
+
+
+        <mat-form-field class="example-full-width">
+            <!-- <mat-label>Email</mat-label> -->
+            <input matInput 
+                   placeholder="FullName" formControlName='fullName'>
+    
+  
+            
+            
+          </mat-form-field>
+
+
+
+
+
+
+
+
+
+
+
+        <mat-form-field class="example-full-width">
+          <!-- <mat-label>Email</mat-label> -->
+          <input matInput 
+                 placeholder="Email" formControlName='email'>
+
+   
+          
+        </mat-form-field>
+          <!-- <mat-label>password</mat-label> -->
+          <mat-form-field class="example-full-width">
+          <input matInput type="password" 
+                 placeholder="password" formControlName='password'>
+      
+  
+        </mat-form-field>
+
+
+
+
+
+
+
+
+
+
+
+
+      </form>
+      <div style="margin-left: 8rem;">
+      <button  type="button" class="btn btn-primary "(click)='register()'>Register</button>
+ 
+    </div>
+
+
+    </mat-card>
+   
+
+
+
+
+          
+         
+  </body>
+
+
+
+
+
+
+
+
+
+
+

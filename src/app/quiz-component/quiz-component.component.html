@@ -1,0 +1,48 @@
+
+
+  <app-navbar></app-navbar>
+
+  <div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-8-offset-2">
+            <p class="text-center">{{nextQuestion +1}} of {{quzzes.length}}</p>
+<h1 ><b>{{quzzes[nextQuestion].question}}</b></h1>
+
+<ul class="list-group" *ngFor="let quiz of quzzes[nextQuestion].answer">
+    <label>
+    <li class="list-group-item"  appBackground [correctAnswer]="quiz.correct"  (click)="colorchange(quzzes[nextQuestion].answer)">
+        <input type="radio" name="options" (change)="onClick(quiz.correct)"  [disabled]="answerSelected" >
+{{quiz.option}}
+    </li>
+</label>
+</ul>
+
+
+
+<!-- <p class="text-center">{{correctAnswers }} of {{incorrectAnswers}}</p> -->
+        </div>
+    </div>
+</div>
+
+
+  </div>
+
+
+
+
+
+  <div class="container" *ngIf="completed">
+    <div class="row">
+        <div class="col-sm-8-offset-2">
+        
+
+              
+                  <button mat-raised-button (click)="openDialog()" class="bg-primary"(click)="saveScore()">Your final Score</button>
+      
+
+        </div>
+    </div>
+  </div>
+
