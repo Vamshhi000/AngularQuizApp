@@ -15,13 +15,21 @@ export class LeaderBoardComponent implements OnInit {
   ngOnInit(): void {
     this.getWinnersData();
   }
-  tableData:User[]=[];
-
+  tableData:any[]=[];
+ winnersMap = new Map<number,Object>(); 
+ value:number=1; 
   getWinnersData(){
-    this.authservice.getTopTenWinners().subscribe((res:any)=>{
-      console.log(res);
-this.tableData=res;
+this.tableData=JSON.parse(localStorage.getItem("Winners"));
+this.tableData.sort((a,b)=>{
+  return b.score-a.score;
+})
 
-    },(err)=>{})
+this.tableData.forEach((val)=>{
+  this.winnersMap.set(this.value,val);
+  this.value++;
+})
+
+this.value=1;
+console.log(this.winnersMap);
   }
 }

@@ -95,8 +95,26 @@ x.score=this.correctAnswers
   x.name=this.name;
 
 console.log(x);
-this.authservice.saveScore(x).subscribe((res)=>{console.log(res)},(err)=>{console.log(err)});
+this.addUser(x);
+
   }
 
+  addUser(winner){
+    let winners=[];
+    if(localStorage.getItem('Winners')){
+      winners=JSON.parse(localStorage.getItem('Winners'))
+      winners.forEach((val,index)=>{
+       if(val.name===winner.name){
+         winners.splice(index,1);
+       }
+      })
+
+      winners=[winner, ...winners];
+    }else{
+      winners=[winner];
+    }
+    localStorage.setItem('Winners', JSON.stringify(winners));
+ 
+  }
 
 }

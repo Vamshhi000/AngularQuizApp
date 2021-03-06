@@ -13,7 +13,9 @@
           <input matInput 
                  placeholder="Enter a valid email id" formControlName='email'>
 
-         
+                 <mat-error  *ngIf="this.userform.get('email').errors && this.userform.get('email').errors.invalidemail " >
+                  Please enter a valid email address
+                </mat-error>
           
         </mat-form-field>
 

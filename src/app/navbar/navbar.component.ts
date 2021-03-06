@@ -1,6 +1,7 @@
 import { Route } from '@angular/compiler/src/core';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthenticationServiceService } from '../services/authentication-service.service';
 
 @Component({
   selector: 'app-navbar',
@@ -9,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor(private router:Router) { }
+  constructor(private router:Router,private authservice:AuthenticationServiceService) { }
 
   ngOnInit(): void {
     this.getLocalStoragedata=JSON.parse(localStorage.getItem("user"));
@@ -21,7 +22,9 @@ name:string;
 getLocalStoragedata:any;
 
   logout(){
-    localStorage.clear();
+    
+    localStorage.removeItem('user');
+    this.authservice.verification(false);
     this.router.navigate(['/LoginComponent']);
   }
 }

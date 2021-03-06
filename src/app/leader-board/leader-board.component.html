@@ -8,22 +8,26 @@
             <table  class="table table-dark" >
                 <thead>
                     <tr>
-                        <th  style="color: yellow;">No</th>
+                        <th  style="color: yellow;">RANK</th>
                       <th style="color: yellow;">NAME</th>
                       <th  style="color: yellow;">SCORE</th>
 
            
                     </tr>
                 </thead>
+        
                 <tbody>
-                  <tr *ngFor='let a of tableData'>
-                    <td  >{{ a.rank }}</td>
-                    <td  >{{ a.fullName }}</td>
-                    <td  >{{ a.score}}</td>
+           
+                  <tr *ngFor="let maap of winnersMap | keyvalue">
+                    <td  >{{ maap.key }}</td>
+                    <td  >{{maap.value.name}} </td>
+                    <td  >{{maap.value.score}}</td>
 
 
                 </tr>
+             
                 </tbody>
+              
               </table>
 
 

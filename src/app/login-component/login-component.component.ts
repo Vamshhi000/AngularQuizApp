@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 
 import { Observable, Subject } from 'rxjs';
 import { CommonServiceService } from '../services/common-service.service';
+import { Customvalidators } from '../customValidator/customValidator';
 
 @Component({
   selector: 'app-login-component',
@@ -20,6 +21,7 @@ userform:FormGroup;
 user:User;
 myimg:string ="assets/images/quiz.png";
 getLocalStoragedata:any;
+usersLocalData:any[]=[];
 
 isSucuess:boolean;
 message:String;
@@ -28,7 +30,7 @@ diserror:boolean=false;
 
     this.userform=this.fb.group({
      
-      email:['',[Validators.required,]],
+      email:['',[Validators.required,Customvalidators.emailValidator]],
       password:['',[Validators.required,Validators.maxLength(12),Validators.minLength(8)]]
 
 
@@ -40,14 +42,15 @@ diserror:boolean=false;
 
 
 this.getLocalStoragedata=JSON.parse(localStorage.getItem("user"));
-this.authservice.verification(this.getLocalStoragedata.validate);
+
+if(this.getLocalStoragedata!=null){
+  this.authservice.verification(true);
+}
 this.commnonsubject.userSubject.next(this.getLocalStoragedata);
 this.commnonsubject.usersBeSubject.next(this.getLocalStoragedata);
 this.router.navigate(['/quizComponent']);
   }
-  ngOnChanges():void{
 
-  }
 
 
 
@@ -56,28 +59,49 @@ this.router.navigate(['/quizComponent']);
 
 
 Login(){
-this.authservice.Login(this.userform.value).subscribe(
-  (res:any)=>{
-console.log(res)
-localStorage.setItem("user",JSON.stringify(res));
+
+
+console.log(this.userform.value.email);
+this.usersLocalData=JSON.parse(localStorage.getItem("Users"));
+
+
+  this.usersLocalData.forEach((val)=>{
+    console.log(val.email);
+
+    if(this.userform.value.email===val.email){
+    if(this.userform.value.password===val.password)  {
+localStorage.setItem("user",JSON.stringify(val));
 this.getLocalStoragedata=JSON.parse(localStorage.getItem("user"));
+this.authservice.verification(true);
 this.commnonsubject.userSubject.next(this.getLocalStoragedata);
 this.commnonsubject.usersBeSubject.next(this.getLocalStoragedata);
 
 
 
     this.router.navigate(['/quizComponent']);
-    
-  },
-  (err:any)=>{
-    console.log(err)
-    this.message=err.error.message;
-    console.log(this.message);
+
+
+    }else{
+      this.forError("Please enter valid password");
+
+    }
+
+
+    }else{
+         
+
+  this.forError("Your not a registered user");
+    }
+  })
+
+}
+forError(message){
+
+        this.message=message;
+
     this.isSucuess=false;
     this.diserror=true;
     setTimeout(()=>{this.diserror=false},5000);
-  }
-)
 }
 
 

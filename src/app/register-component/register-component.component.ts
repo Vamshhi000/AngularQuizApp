@@ -1,6 +1,7 @@
 import { Component, OnChanges, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Customvalidators } from '../customValidator/customValidator';
 
 import { User } from '../models/user';
 import {AuthenticationServiceService} from '../services/authentication-service.service';
@@ -19,19 +20,19 @@ export class RegisterComponentComponent implements OnInit {
   message:String;
   diserror:Boolean=false;
   myimg:string ="assets/images/quiz.png";
+
+  userr:any={};
     ngOnInit(): void {
-  //errors method is used to validate validators in the userform object
+  
       this.userform=this.fb.group({
         fullName:['',[Validators.required,Validators.maxLength(30),Validators.minLength(5)]],
      
-        email:['',[Validators.required]],
+        email:['',[Validators.required,Customvalidators.emailValidator]],
         password:['',[Validators.required,Validators.maxLength(12),Validators.minLength(8)]],
 
       })
       
-  
-  // this.userform.get('email').setValue(this.user.email);
-  // this.userform.get('password').setValue(this.user.password);
+
   
   
     }
@@ -41,18 +42,54 @@ export class RegisterComponentComponent implements OnInit {
   
   
   register(){
-    this.router.navigate(['/LoginComponent']);
-this.authservice.register(this.userform.value).subscribe((res:any)=>{
-console.log(res);
-},(err:any)=>{
-  console.log(err);
-})
+
+
+
+this.userr=Object.assign(this.userr,this.userform.value);
+
+if(this.verifyUser(this.userr)){
+  this.addUser(this.userr);
+}
+
   }
 
-  // check(){
-  //   this.isSucuess=true;
-  
-  // }
-  
 
+  addUser(user){
+    let users=[];
+    if(localStorage.getItem('Users')){
+      users=JSON.parse(localStorage.getItem('Users'))
+    users=[user, ...users];
+    }else{
+      users=[user];
+    }
+    localStorage.setItem('Users', JSON.stringify(users));
+    this.router.navigate(['/LoginComponent']);
+  }
+
+  verifyUser(formUser):boolean{
+    let users=[];
+    let verifier:boolean=true
+    users=JSON.parse(localStorage.getItem('Users'))
+
+if(users!=null){
+  users.forEach((val)=>{
+    if(formUser.email===val.email){
+     verifier=false
+     this.forError("User already registerd please! LOGIN")
+    }
+  })
+}
+
+   return verifier; 
+  }
+
+
+  forError(message){
+
+    this.message=message;
+
+this.isSucuess=false;
+this.diserror=true;
+setTimeout(()=>{this.diserror=false},5000);
+}
 }
